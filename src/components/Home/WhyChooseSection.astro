@@ -1,0 +1,73 @@
+---
+import { GraduationCap, Hammer, Users, Rocket } from "lucide-react";
+
+const stats = [
+  { value: "500+", label: "Students trained" },
+  { value: "50+", label: "Projects built" },
+  { value: "95%", label: "Completion rate" },
+];
+
+const features = [
+  {
+    icon: GraduationCap,
+    title: "Expert-led instruction",
+    description: "Learn directly from engineers and researchers actively working in AI and robotics.",
+  },
+  {
+    icon: Hammer,
+    title: "Project-based learning",
+    description: "Every concept is reinforced through labs, builds, and a final capstone project.",
+  },
+  {
+    icon: Users,
+    title: "Peer community",
+    description: "Collaborate with other learners, share projects, and get feedback in real time.",
+  },
+  {
+    icon: Rocket,
+    title: "Career-ready skills",
+    description: "Build a portfolio of work that demonstrates your abilities to employers.",
+  },
+];
+---
+
+<section class="relative py-20 md:py-28 bg-muted/30">
+  <div class="responsive-container">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+      <div class="reveal">
+        <h2 class="text-3xl md:text-4xl font-semibold tracking-tight mb-5">
+          Built for learners who want to <span class="text-primary">make things</span>.
+        </h2>
+        <p class="text-base text-muted-foreground leading-relaxed mb-10 max-w-md">
+          We cut the theory-only lectures. RoboAI programs combine structured curriculum with hands-on builds so you finish with real skills.
+        </p>
+
+        <div class="grid grid-cols-3 gap-6">
+          {stats.map((stat, i) => (
+            <div class:list={["reveal", `reveal-delay-${i + 1}`]}>
+              <p class="text-3xl md:text-4xl font-semibold tracking-tight text-primary mb-1">{stat.value}</p>
+              <p class="text-xs text-muted-foreground uppercase tracking-wider">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {features.map((feature, i) => (
+          <div
+            class:list={[
+              "p-6 rounded-2xl border border-border bg-background shadow-sm reveal",
+              `reveal-delay-${i + 1}`,
+            ]}
+          >
+            <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 text-primary mb-4">
+              <feature.icon className="w-5 h-5" />
+            </div>
+            <h3 class="text-sm font-semibold mb-2">{feature.title}</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

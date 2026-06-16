@@ -1,0 +1,105 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navbar from "@/components/Navbar/Navbar.astro";
+import Footer from "@/components/Footer/Footer.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import CTASection from "@/components/Home/CTASection.astro";
+import { Code, BrainCircuit, Cpu, ArrowRight, Clock, Users, Layers } from "lucide-react";
+
+const courses = [
+  {
+    icon: Code,
+    title: "Python Mastery",
+    description: "From fundamentals to real-world applications. The complete foundation for AI, data, and automation.",
+    features: ["Variables to OOP", "File I/O & APIs", "Data Structures", "Capstone Project"],
+    href: "/courses/python",
+    level: "Beginner",
+    duration: "8 Weeks",
+    students: "180+",
+  },
+  {
+    icon: BrainCircuit,
+    title: "AI Fundamentals",
+    description: "Master classical ML, deep learning, and model deployment using TensorFlow and PyTorch.",
+    features: ["Math for ML", "Supervised & Unsupervised", "Deep Learning", "MLOps & Deployment"],
+    href: "/courses/ai-fundamentals",
+    level: "Beginner to Practitioner",
+    duration: "12 Weeks",
+    students: "220+",
+  },
+  {
+    icon: Cpu,
+    title: "Robotics & IoT",
+    description: "Build intelligent hardware. Sensors, microcontrollers, real-time control, and cloud connectivity.",
+    features: ["Arduino & Raspberry Pi", "Sensors & Actuators", "PID & Real-Time Control", "IoT Cloud Dashboards"],
+    href: "/courses/robotics-iot",
+    level: "Beginner to Intermediate",
+    duration: "10 Weeks",
+    students: "150+",
+  },
+];
+---
+
+<BaseLayout title="Courses" description="Explore our comprehensive AI, Robotics, and programming courses.">
+  <Navbar slot="navbar" />
+
+  <PageHeader
+    eyebrow="Programs"
+    title="Learn the skills that shape the future"
+    description="Comprehensive, hands-on programs designed to take you from beginner to practitioner in AI, robotics, and software development."
+  />
+
+  <section class="py-16 md:py-24">
+    <div class="responsive-container">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {courses.map((course, i) => (
+          <div class:list={["group relative flex flex-col rounded-2xl border border-border bg-card shadow-sm p-7 hover-lift reveal", `reveal-delay-${i + 1}`]}>
+            <div class="flex items-start justify-between mb-6">
+              <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary">
+                <course.icon className="w-6 h-6" />
+              </div>
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-muted text-muted-foreground">
+                {course.level}
+              </span>
+            </div>
+
+            <h3 class="text-xl font-semibold tracking-tight mb-2">{course.title}</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-5">{course.description}</p>
+
+            <ul class="space-y-2 mb-6 flex-1">
+              {course.features.map((feature) => (
+                <li class="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Layers className="w-3.5 h-3.5 text-primary shrink-0" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <div class="pt-6 border-t border-border flex items-center justify-between">
+              <div class="flex items-center gap-3 text-xs text-muted-foreground">
+                <span class="flex items-center gap-1">
+                  <Clock className="w-3.5 h-3.5" />
+                  {course.duration}
+                </span>
+                <span class="flex items-center gap-1">
+                  <Users className="w-3.5 h-3.5" />
+                  {course.students}
+                </span>
+              </div>
+              <a
+                href={course.href}
+                class="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors group/link"
+              >
+                Details
+                <ArrowRight className="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform" />
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection />
+  <Footer slot="footer" />
+</BaseLayout>

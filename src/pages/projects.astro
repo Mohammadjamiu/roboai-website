@@ -1,0 +1,96 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navbar from "@/components/Navbar/Navbar.astro";
+import Footer from "@/components/Footer/Footer.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import CTASection from "@/components/Home/CTASection.astro";
+import { Cpu, BrainCircuit, Code, Bot, Wifi, Eye, ArrowUpRight } from "lucide-react";
+
+const projects = [
+  { title: "Autonomous Line-Following Robot", description: "A robot that uses infrared sensors and PID control to follow a line path autonomously.", tags: ["Arduino", "C++", "Sensors", "3D Printing"], icon: Bot, category: "Robotics" },
+  { title: "AI-Powered Image Classifier", description: "A deep learning model that classifies images into 100+ categories with 95% accuracy.", tags: ["Python", "TensorFlow", "CNN", "Flask"], icon: Eye, category: "AI/ML" },
+  { title: "Smart Home IoT System", description: "A complete IoT ecosystem with sensors, actuators, and a mobile dashboard for remote monitoring.", tags: ["Raspberry Pi", "MQTT", "React", "Node.js"], icon: Wifi, category: "IoT" },
+  { title: "Natural Language Chatbot", description: "An AI chatbot that understands context and provides intelligent responses using transformers.", tags: ["Python", "PyTorch", "NLP", "Transformers"], icon: BrainCircuit, category: "AI/ML" },
+  { title: "Robotic Arm Controller", description: "A 6-DOF robotic arm with inverse kinematics control for pick-and-place tasks.", tags: ["ROS", "Python", "Arduino", "CAD"], icon: Cpu, category: "Robotics" },
+  { title: "Real-Time Face Recognition", description: "A face detection and recognition system using OpenCV and deep learning.", tags: ["Python", "OpenCV", "Deep Learning", "NumPy"], icon: Code, category: "AI/ML" },
+];
+
+const categories = ["All", "Robotics", "AI/ML", "IoT"];
+---
+
+<BaseLayout title="Projects" description="Explore real-world AI, robotics, and IoT projects built by our students.">
+  <Navbar slot="navbar" />
+
+  <PageHeader
+    eyebrow="Student Work"
+    title="Built by students, for the future"
+    description="Real-world projects that showcase the skills and knowledge gained through our programs."
+  />
+
+  <section class="py-16 md:py-24">
+    <div class="responsive-container">
+      <div class="flex flex-wrap gap-2 mb-10 reveal">
+        {categories.map((category) => (
+          <button
+            class="category-filter px-4 h-9 rounded-full text-sm font-medium border border-border bg-card hover:bg-muted transition-colors data-[active=true]:bg-primary data-[active=true]:text-primary-foreground data-[active=true]:border-primary"
+            data-category={category}
+            data-active={category === "All" ? "true" : "false"}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="projects-grid">
+        {projects.map((project, i) => (
+          <div
+            class:list={["project-card group relative flex flex-col rounded-2xl border border-border bg-card shadow-sm p-6 hover-lift reveal", `reveal-delay-${(i % 3) + 1}`]}
+            data-category={project.category}
+          >
+            <div class="flex items-start justify-between mb-5">
+              <div class="flex items-center justify-center w-11 h-11 rounded-xl bg-primary/10 text-primary">
+                <project.icon className="w-5 h-5" />
+              </div>
+              <span class="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-muted text-muted-foreground border border-border">
+                {project.category}
+              </span>
+            </div>
+            <h3 class="text-base font-semibold mb-2 group-hover:text-primary transition-colors">{project.title}</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-5 flex-1">{project.description}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {project.tags.map((tag) => (
+                <span class="text-[10px] px-2 py-1 rounded-full bg-muted text-foreground/70 border border-border font-mono">{tag}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection />
+  <Footer slot="footer" />
+</BaseLayout>
+
+<script>
+  const filterButtons = document.querySelectorAll(".category-filter");
+  const projectCards = document.querySelectorAll(".project-card");
+
+  filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const category = button.getAttribute("data-category");
+
+      filterButtons.forEach((btn) => btn.setAttribute("data-active", "false"));
+      button.setAttribute("data-active", "true");
+
+      projectCards.forEach((card) => {
+        const cardCategory = card.getAttribute("data-category");
+        if (category === "All" || cardCategory === category) {
+          (card as HTMLElement).style.display = "flex";
+        } else {
+          (card as HTMLElement).style.display = "none";
+        }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,27 @@
+---
+import { CheckCircle2 } from "lucide-react";
+
+interface Props {
+  intro: string;
+  items: string[];
+}
+
+const { intro, items } = Astro.props;
+---
+
+<section class="py-16 md:py-24">
+  <div class="responsive-container">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-4 reveal">Prerequisites & Requirements</h2>
+      <p class="text-muted-foreground leading-relaxed mb-8 reveal">{intro}</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {items.map((item, i) => (
+          <div class:list={["flex items-start gap-3 p-4 rounded-xl border border-border bg-card shadow-sm reveal", `reveal-delay-${(i % 2) + 1}`]}>
+            <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+            <p class="text-sm text-muted-foreground">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

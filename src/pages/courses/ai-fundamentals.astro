@@ -1,0 +1,100 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navbar from "@/components/Navbar/Navbar.astro";
+import Footer from "@/components/Footer/Footer.astro";
+import CourseHero from "@/components/courses/CourseHero.astro";
+import CourseOverview from "@/components/courses/CourseOverview.astro";
+import CourseCurriculum from "@/components/courses/CourseCurriculum.astro";
+import CourseOutcomes from "@/components/courses/CourseOutcomes.astro";
+import CourseAssessment from "@/components/courses/CourseAssessment.astro";
+import CoursePrerequisites from "@/components/courses/CoursePrerequisites.astro";
+import CourseEnrollmentCTA from "@/components/courses/CourseEnrollmentCTA.astro";
+
+const phases = [
+  { phase: "Phase 1", weeks: "Weeks 1-3", focus: "Foundations: Python, Maths, Data Preprocessing", outcome: "Confident with data pipelines and linear algebra" },
+  { phase: "Phase 2", weeks: "Weeks 4-6", focus: "Core ML: Regression, Classification, Unsupervised", outcome: "Can build and evaluate classical ML models" },
+  { phase: "Phase 3", weeks: "Weeks 7-10", focus: "Deep Learning: DNNs, CNNs, RNNs, Transformers", outcome: "Trains deep models in TensorFlow and PyTorch" },
+  { phase: "Phase 4", weeks: "Weeks 11-12", focus: "Applied AI: MLOps, Deployment, Capstone Project", outcome: "Ships a live model with portfolio documentation" },
+];
+
+const weeks = [
+  { week: 1, phase: "Phase 1 - Foundations", title: "Foundations of AI & Python for ML", topics: [["History of AI", "Types of ML", "Python refresher"], ["NumPy", "Pandas", "Matplotlib"], ["Jupyter Notebooks", "Data types", "Data structures"]], lab: "Set up your ML dev environment and perform exploratory data analysis (EDA) on a real dataset." },
+  { week: 2, phase: "Phase 1 - Foundations", title: "Mathematics for Machine Learning", topics: [["Vectors & matrices", "Matrix multiplication", "Eigenvalues"], ["Derivatives & gradients", "Chain rule", "Probability basics"], ["Distributions", "Bayes theorem", "Statistical inference"]], lab: "Implement gradient descent from scratch in NumPy to understand parameter optimization." },
+  { week: 3, phase: "Phase 1 - Foundations", title: "Data Preprocessing & Feature Engineering", topics: [["Handling missing values", "Encoding categoricals", "Normalization & scaling"], ["Feature selection", "Dimensionality reduction", "Train/val/test splits"], ["Data leakage", "scikit-learn Pipelines", "Outlier detection"]], lab: "Build a full preprocessing pipeline for a messy Kaggle dataset from scratch." },
+  { week: 4, phase: "Phase 2 - Core ML", title: "Supervised Learning I - Regression", topics: [["Linear regression", "Polynomial regression", "Cost functions"], ["Gradient descent", "R-squared, RMSE, MAE", "Ridge (L2)"], ["Lasso (L1)", "Elastic Net", "Bias-variance tradeoff"]], lab: "Project 1: House price prediction model with full evaluation and regularization tuning.", project: true },
+  { week: 5, phase: "Phase 2 - Core ML", title: "Supervised Learning II - Classification", topics: [["Logistic regression", "Decision trees", "Random forests"], ["Gradient boosting", "XGBoost", "SVM"], ["k-NN", "Confusion matrix", "Precision / Recall / F1"], ["ROC-AUC", "Cross-validation"]], lab: "Project 2: Binary and multi-class classification on a medical or financial dataset.", project: true },
+  { week: 6, phase: "Phase 2 - Core ML", title: "Unsupervised Learning", topics: [["K-Means clustering", "Hierarchical clustering", "DBSCAN"], ["Gaussian mixture models", "PCA", "t-SNE"], ["UMAP", "Autoencoders (intro)", "Anomaly detection"]], lab: "Customer segmentation using K-Means with PCA visualisation of cluster structure." },
+  { week: 7, phase: "Phase 3 - Deep Learning", title: "Deep Neural Networks - Foundations", topics: [["Perceptrons", "Multi-layer perceptrons", "Activation functions"], ["Backpropagation", "Optimizers (SGD, Adam)", "Weight initialization"], ["Batch normalization", "Dropout", "Overfitting & regularization"]], lab: "Build and train a neural network in pure NumPy, then replicate in TensorFlow/PyTorch." },
+  { week: 8, phase: "Phase 3 - Deep Learning", title: "TensorFlow & PyTorch in Practice", topics: [["TensorFlow 2.x / Keras API", "PyTorch tensors", "Autograd"], ["Custom training loops", "DataLoaders", "GPU acceleration"], ["Model saving & loading", "TensorBoard", "Callbacks & hooks"]], lab: "Train the same image classifier in both frameworks and compare APIs, speed, and ergonomics." },
+  { week: 9, phase: "Phase 3 - Deep Learning", title: "Convolutional Neural Networks (CNNs)", topics: [["Convolution operation", "Pooling layers", "CNN architectures"], ["VGG & ResNet", "Transfer learning", "Fine-tuning"], ["Data augmentation", "Object detection (intro)", "Grad-CAM visualisation"]], lab: "Project 3: Image classifier using transfer learning from ResNet, fine-tuned on a custom dataset.", project: true },
+  { week: 10, phase: "Phase 3 - Deep Learning", title: "Sequence Models & NLP Foundations", topics: [["Recurrent neural networks", "LSTMs & GRUs", "Vanishing gradients"], ["Word embeddings", "Word2Vec / GloVe", "Attention mechanism"], ["Transformer architecture", "BERT / GPT overview", "Hugging Face intro"]], lab: "Sentiment analysis with LSTM, then fine-tune a BERT model using Hugging Face Transformers." },
+  { week: 11, phase: "Phase 4 - Applied AI", title: "MLOps & Model Deployment", topics: [["ML project lifecycle", "MLflow experiment tracking", "Hyperparameter tuning"], ["Docker for ML", "FastAPI model serving", "REST API design"], ["Model versioning", "Data drift monitoring", "CI/CD for ML"]], lab: "Project 4: Package and deploy a trained model as a live REST API with MLflow tracking and Docker.", project: true },
+  { week: 12, phase: "Phase 4 - Applied AI", title: "Capstone - Real-World AI Project", topics: [["Problem scoping", "Dataset sourcing", "Full ML pipeline"], ["Model selection & tuning", "Fairness & bias audit", "Responsible AI principles"], ["Technical presentation", "Portfolio writeup"]], lab: "Choose from: Fraud Detection System, Recommendation Engine, Medical Image Classifier, or NLP Chatbot. Present a live demo.", capstone: true },
+];
+
+const outcomes = [
+  { area: "ML Fundamentals", skill: "Understand and explain supervised, unsupervised, and deep learning from first principles" },
+  { area: "Python & Libraries", skill: "Use NumPy, Pandas, Matplotlib, and scikit-learn confidently for any ML task" },
+  { area: "Framework Fluency", skill: "Write production-grade models in both TensorFlow/Keras and PyTorch" },
+  { area: "Computer Vision", skill: "Build image classifiers and apply transfer learning with pre-trained CNNs" },
+  { area: "NLP & Transformers", skill: "Implement sequence models and fine-tune BERT-class models with Hugging Face" },
+  { area: "Model Deployment", skill: "Serve models via REST APIs using FastAPI and Docker, with MLflow tracking" },
+  { area: "Responsible AI", skill: "Audit models for bias and apply ethical AI frameworks to real-world systems" },
+  { area: "Portfolio Projects", skill: "Present 6 completed, documented projects to potential employers" },
+];
+
+const assessment = [
+  { component: "Weekly Labs (Weeks 1-10)", weight: "30%", description: "Practical coding labs submitted after each session" },
+  { component: "Mid-Program Projects (x2)", weight: "25%", description: "House price prediction + Classification project (Weeks 4-5)" },
+  { component: "Deep Learning Project", weight: "20%", description: "CNN image classifier with transfer learning (Week 9)" },
+  { component: "MLOps Deployment Lab", weight: "10%", description: "Live REST API deployment with MLflow (Week 11)" },
+  { component: "Capstone Project", weight: "15%", description: "End-to-end AI system with live demo and portfolio writeup" },
+];
+
+const tools = [
+  { category: "Languages", items: "Python 3.10+" },
+  { category: "Core Libraries", items: "NumPy, Pandas, Matplotlib, Seaborn, scikit-learn" },
+  { category: "Deep Learning", items: "TensorFlow 2.x, Keras, PyTorch, Hugging Face Transformers" },
+  { category: "MLOps", items: "MLflow, Docker, FastAPI, Git, GitHub Actions" },
+  { category: "Environments", items: "Jupyter Notebook, Google Colab, VS Code" },
+  { category: "Datasets", items: "Kaggle, UCI ML Repository, Hugging Face Datasets" },
+];
+
+const prerequisites = [
+  "Basic programming experience in any language (Python experience is a plus)",
+  "A laptop with internet access (cloud GPU access provided for deep learning modules)",
+  "8-10 hours per week available for study, labs, and projects",
+  "Curiosity and willingness to engage with mathematical concepts at an introductory level",
+];
+---
+
+<BaseLayout title="AI Fundamentals" description="12-week comprehensive program. Deep dive into artificial intelligence and machine learning.">
+  <Navbar slot="navbar" />
+
+  <CourseHero
+    title="AI"
+    highlight="Fundamentals"
+    description="Deep dive into artificial intelligence and machine learning. Build intelligent systems using TensorFlow, PyTorch, and modern MLOps practices."
+    level="Beginner to Practitioner"
+    duration="12 Weeks"
+    topics="300+"
+    projects="6"
+  />
+
+  <CourseOverview
+    intro="AI Fundamentals is a 12-week hands-on program designed to take you from beginner to practitioner in artificial intelligence and machine learning."
+    description="This 12-week program provides a structured, hands-on path from beginner to practitioner in artificial intelligence and machine learning. Students progress through four carefully sequenced phases - building mathematical foundations, mastering classical ML algorithms, diving into deep neural networks, and finally applying skills to production-ready systems."
+    phases={phases}
+  />
+
+  <CourseCurriculum weeks={weeks} />
+  <CourseOutcomes outcomes={outcomes} />
+  <CourseAssessment assessment={assessment} tools={tools} />
+  <CoursePrerequisites intro="This program is designed for beginners. No prior ML experience is required." items={prerequisites} />
+  <CourseEnrollmentCTA
+    title="Ready to Build Intelligent Systems?"
+    description="Join the next generation of AI engineers. Go from zero ML knowledge to deploying production models in 12 weeks."
+  />
+
+  <Footer slot="footer" />
+</BaseLayout>

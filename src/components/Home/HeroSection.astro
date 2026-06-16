@@ -1,0 +1,97 @@
+---
+import { ArrowRight, Play } from "lucide-react";
+import GridPattern from "./GridPattern.astro";
+---
+
+<section class="relative min-h-screen flex items-center overflow-hidden pt-16">
+  <GridPattern />
+
+  <div class="absolute top-1/4 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+  <div class="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+  <div class="relative z-10 responsive-container py-20 md:py-28">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+      <div class="max-w-xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-muted border border-border mb-6 opacity-0 animate-[fadeUp_0.6s_ease-out_0.1s_forwards]">
+          <span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          <span class="text-xs font-medium text-muted-foreground">Now enrolling for 2026 cohorts</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-[3.5rem] font-semibold tracking-tight leading-[1.08] mb-5 opacity-0 animate-[fadeUp_0.6s_ease-out_0.15s_forwards]">
+          Learn to build with <span class="text-primary">AI</span>, <span class="text-primary">robots</span>, and <span class="text-primary">code</span>.
+        </h1>
+
+        <p class="text-base md:text-lg text-muted-foreground leading-relaxed mb-8 max-w-md opacity-0 animate-[fadeUp_0.6s_ease-out_0.2s_forwards]">
+          Practical programs built for future engineers. No filler. Just projects, mentorship, and skills that matter.
+        </p>
+
+        <div class="flex flex-col sm:flex-row items-start gap-3 mb-10 opacity-0 animate-[fadeUp_0.6s_ease-out_0.25s_forwards]">
+          <a
+            href="/courses"
+            class="inline-flex items-center justify-center gap-2 h-12 px-7 text-sm font-medium rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-primary/10"
+          >
+            Explore Courses
+            <ArrowRight className="w-4 h-4" />
+          </a>
+          <a
+            href="/projects"
+            class="inline-flex items-center justify-center gap-2 h-12 px-7 text-sm font-medium rounded-full text-foreground bg-muted hover:bg-muted/80 transition-all duration-200"
+          >
+            <Play className="w-4 h-4" />
+            See Student Work
+          </a>
+        </div>
+
+        <div class="flex items-center gap-6 opacity-0 animate-[fadeUp_0.6s_ease-out_0.3s_forwards]">
+          <div class="flex -space-x-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div class="w-8 h-8 rounded-full border-2 border-background bg-muted flex items-center justify-center text-[10px] font-medium text-muted-foreground">
+                {i === 4 ? "+" : String.fromCharCode(64 + i)}
+              </div>
+            ))}
+          </div>
+          <div class="text-sm">
+            <p class="font-medium text-foreground">Trusted by 500+ students</p>
+            <p class="text-muted-foreground">across Africa and beyond</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative opacity-0 animate-[fadeUp_0.8s_ease-out_0.3s_forwards]">
+        <div class="relative rounded-2xl border border-border bg-card shadow-xl overflow-hidden">
+          <div class="flex items-center gap-2 px-4 py-3 border-b border-border bg-muted/50">
+            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+            <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+            <span class="ml-2 text-xs text-muted-foreground font-mono">roboai_lab.py</span>
+          </div>
+          <div class="p-5 font-mono text-sm leading-relaxed overflow-x-auto">
+            <div class="space-y-1">
+              <p><span class="text-primary">from</span> robotics <span class="text-primary">import</span> Robot, Sensor</p>
+              <p><span class="text-primary">from</span> ai <span class="text-primary">import</span> NeuralNetwork</p>
+              <p>&nbsp;</p>
+              <p><span class="text-muted-foreground"># Initialize autonomous rover</span></p>
+              <p>rover = Robot(<span class="text-primary">name</span>=<span class="text-secondary-foreground">"Lunar-1"</span>)</p>
+              <p>lidar = Sensor.<span class="text-primary">lidar</span>(<span class="text-primary">range</span>=<span class="text-secondary-foreground">10_000</span>)</p>
+              <p>&nbsp;</p>
+              <p><span class="text-primary">def</span> <span class="text-secondary-foreground">navigate</span>(terrain):</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;model = NeuralNetwork.<span class="text-primary">load</span>(<span class="text-secondary-foreground">"pathfinder-v2.pt"</span>)</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-primary">return</span> model.<span class="text-primary">predict</span>(terrain)</p>
+              <p>&nbsp;</p>
+              <p><span class="text-primary">while</span> rover.<span class="text-primary">active</span>:</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;path = navigate(lidar.<span class="text-primary">scan</span>())</p>
+              <p>&nbsp;&nbsp;&nbsp;&nbsp;rover.<span class="text-primary">follow</span>(path)</p>
+            </div>
+          </div>
+          <div class="absolute bottom-4 right-4 w-16 h-16 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center animate-float">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-primary">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

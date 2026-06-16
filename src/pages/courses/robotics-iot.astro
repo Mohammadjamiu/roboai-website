@@ -1,0 +1,124 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navbar from "@/components/Navbar/Navbar.astro";
+import Footer from "@/components/Footer/Footer.astro";
+import CourseHero from "@/components/courses/CourseHero.astro";
+import CourseOverview from "@/components/courses/CourseOverview.astro";
+import CourseCurriculum from "@/components/courses/CourseCurriculum.astro";
+import CourseOutcomes from "@/components/courses/CourseOutcomes.astro";
+import CourseHardwareKit from "@/components/courses/CourseHardwareKit.astro";
+import CourseAssessment from "@/components/courses/CourseAssessment.astro";
+import CoursePrerequisites from "@/components/courses/CoursePrerequisites.astro";
+import CourseEnrollmentCTA from "@/components/courses/CourseEnrollmentCTA.astro";
+import { Cpu, CircuitBoard, Wrench } from "lucide-react";
+
+const phases = [
+  { phase: "Phase 1", weeks: "Weeks 1-3", focus: "Electronics, Arduino & Raspberry Pi", outcome: "Program microcontrollers and control GPIO hardware" },
+  { phase: "Phase 2", weeks: "Weeks 4-5", focus: "Sensor Integration & Actuators", outcome: "Read sensor data and drive motors with precision" },
+  { phase: "Phase 3", weeks: "Weeks 6-7", focus: "Robotics Systems & Real-Time Control", outcome: "Build autonomous robots with PID and interrupt control" },
+  { phase: "Phase 4", weeks: "Weeks 8-10", focus: "IoT Connectivity, Cloud & Capstone", outcome: "Stream live data to cloud dashboards and capstone build" },
+];
+
+const weeks = [
+  { week: 1, phase: "Phase 1 - Foundations", title: "Introduction to Robotics, IoT & Electronics Basics", topics: [["What is robotics?", "What is IoT?", "Types of robots"], ["IoT architecture overview", "Basic electronics (V, I, R)", "Ohm's law"], ["Breadboards & wiring", "Resistors & capacitors", "LEDs & transistors"], ["Reading circuit diagrams"]], lab: "Wire a simple LED blink circuit on a breadboard using only discrete components - no microcontroller." },
+  { week: 2, phase: "Phase 1 - Foundations", title: "Microcontroller Programming - Arduino Fundamentals", topics: [["Arduino platform overview", "Arduino IDE setup", "Sketch structure (setup/loop)"], ["Digital I/O", "Analog I/O", "PWM signals"], ["Serial communication", "pinMode & digitalWrite", "analogRead & analogWrite"], ["Debugging with Serial Monitor"]], lab: "Program an Arduino to control LED brightness using a potentiometer via PWM and analogRead." },
+  { week: 3, phase: "Phase 1 - Foundations", title: "Raspberry Pi & Linux for Embedded Systems", topics: [["Raspberry Pi hardware overview", "Linux command line basics", "GPIO pin layout"], ["Python on Raspberry Pi", "RPi.GPIO library", "I2C & SPI protocols"], ["UART communication", "SSH & remote access", "Headless Pi setup"]], lab: "Set up a Raspberry Pi headlessly, access via SSH, and control an LED via GPIO using Python." },
+  { week: 4, phase: "Phase 2 - Sensor Integration", title: "Sensor Integration & Data Acquisition", topics: [["Types of sensors", "Temperature & humidity (DHT11/22)", "Ultrasonic distance (HC-SR04)"], ["IR sensors", "PIR motion sensors", "Light dependent resistors"], ["Accelerometers (MPU-6050)", "Sensor calibration", "Analog vs digital sensors"], ["Noise filtering"]], lab: "Project 1: Build an environmental monitoring station that reads temperature, humidity, and light levels and logs data to a CSV file.", project: true },
+  { week: 5, phase: "Phase 2 - Sensor Integration", title: "Actuators, Motors & Movement", topics: [["DC motors & H-bridge (L298N)", "PWM motor speed control", "Servo motors"], ["Stepper motors", "Motor driver circuits", "Relay modules"], ["Solenoids", "Gear ratios & torque", "Direction & speed control"], ["Motor encoder basics"]], lab: "Project 2: Build a motorised chassis with independent wheel control - forward, reverse, and turning.", project: true },
+  { week: 6, phase: "Phase 3 - Robotics Systems", title: "Robotics Fundamentals & Kinematics", topics: [["Robot anatomy & degrees of freedom", "Coordinate systems", "Forward kinematics"], ["Inverse kinematics (intro)", "Robot arm anatomy", "PID control theory"], ["Line-following algorithms", "Obstacle avoidance logic", "Dead reckoning"], ["Odometry"]], lab: "Project 3: Build a line-following robot using IR sensors and a PID-tuned motor control loop.", project: true },
+  { week: 7, phase: "Phase 3 - Robotics Systems", title: "Real-Time Control Systems & Interrupts", topics: [["RTOS concepts", "FreeRTOS basics", "Interrupt service routines"], ["Timer interrupts", "Hardware vs software interrupts", "Debouncing"], ["Multitasking on microcontrollers", "Watchdog timers", "Task scheduling"], ["Latency & timing constraints"]], lab: "Implement interrupt-driven encoder feedback for a motor controller with precise speed regulation." },
+  { week: 8, phase: "Phase 4 - IoT & Connectivity", title: "IoT Protocols & Wireless Connectivity", topics: [["Wi-Fi with ESP8266/ESP32", "Bluetooth & BLE", "MQTT protocol"], ["HTTP REST for IoT", "CoAP protocol overview", "LoRa & LoRaWAN"], ["Zigbee overview", "NFC & RFID basics", "Network security in IoT"], ["TLS/SSL on embedded devices"]], lab: "Project 4: Connect a sensor node to an MQTT broker and publish live readings to a cloud dashboard.", project: true },
+  { week: 9, phase: "Phase 4 - IoT & Connectivity", title: "Cloud Platforms, Dashboards & Data Pipelines", topics: [["AWS IoT Core overview", "Azure IoT Hub overview", "Google Cloud IoT"], ["Node-RED visual programming", "InfluxDB for time-series data", "Grafana dashboards"], ["IFTTT automation", "Webhooks & triggers", "OTA firmware updates"], ["Edge vs cloud processing"]], lab: "Project 5: Stream sensor data to a cloud IoT platform and build a live Grafana dashboard with alerting.", project: true },
+  { week: 10, phase: "Phase 4 - IoT & Connectivity", title: "Capstone - Intelligent Robotics / IoT System", topics: [["Capstone project planning", "System architecture design", "Hardware-software integration"], ["Power management", "3D printing & enclosures (intro)", "Safety & fail-safes"], ["Testing & validation", "Technical documentation", "Demo preparation"], ["Responsible robotics & ethics"]], lab: "Design and build a complete intelligent system - choose from: Autonomous obstacle-avoidance robot, Smart home automation hub, Remote-controlled IoT surveillance unit, or Robotic arm with sensor feedback.", capstone: true },
+];
+
+const outcomes = [
+  { area: "Electronics Fundamentals", skill: "Read circuit diagrams, work safely with components, and prototype on breadboards" },
+  { area: "Arduino Programming", skill: "Write C/C++ sketches for Arduino to read sensors and control actuators" },
+  { area: "Raspberry Pi & Linux", skill: "Deploy Python scripts on Linux-based embedded systems via SSH and GPIO" },
+  { area: "Sensor Integration", skill: "Interface with temperature, distance, motion, and accelerometer sensors" },
+  { area: "Motor & Actuator Control", skill: "Drive DC motors, servos, and steppers with precise speed and direction control" },
+  { area: "Robotics & PID Control", skill: "Implement line-following and obstacle-avoidance with tuned PID loops" },
+  { area: "Real-Time Systems", skill: "Use interrupts, timers, and task scheduling for time-critical embedded applications" },
+  { area: "IoT Protocols", skill: "Publish and subscribe to MQTT topics and connect devices over Wi-Fi and BLE" },
+  { area: "Cloud & Dashboards", skill: "Stream IoT data to AWS/Azure IoT and visualise it live in Grafana" },
+  { area: "Capstone Project", skill: "Design, build, document, and demo a complete robotics or IoT system" },
+];
+
+const assessment = [
+  { component: "Weekly Hardware Labs (Weeks 1-9)", weight: "35%", description: "Documented lab builds with circuit photos and code submitted weekly" },
+  { component: "Environmental Monitor Project (Week 4)", weight: "15%", description: "Sensor station with multi-channel data logging" },
+  { component: "Motorised Chassis Build (Week 5)", weight: "15%", description: "Working robot chassis with directional motor control" },
+  { component: "Line-Following Robot (Week 6)", weight: "15%", description: "Autonomous robot with PID-tuned line tracking" },
+  { component: "IoT Cloud Dashboard (Week 9)", weight: "10%", description: "Live sensor stream to cloud platform with Grafana display" },
+  { component: "Capstone Project (Week 10)", weight: "10%", description: "Complete intelligent system with live demo and technical write-up" },
+];
+
+const tools = [
+  { category: "Languages", items: "C/C++ (Arduino), Python 3 (Raspberry Pi / ESP32 MicroPython)" },
+  { category: "IDEs & Editors", items: "Arduino IDE 2.x, VS Code with PlatformIO, Thonny (MicroPython)" },
+  { category: "Hardware Platforms", items: "Arduino Uno, Raspberry Pi 4, ESP8266, ESP32" },
+  { category: "IoT Protocols", items: "MQTT (Mosquitto broker), HTTP REST, BLE, Wi-Fi" },
+  { category: "Cloud Platforms", items: "AWS IoT Core, Azure IoT Hub, Adafruit IO (beginner-friendly)" },
+  { category: "Data & Dashboards", items: "Node-RED, InfluxDB, Grafana, ThingSpeak" },
+  { category: "Libraries & Frameworks", items: "RPi.GPIO, DHT library, PID library, FreeRTOS, requests" },
+  { category: "Version Control", items: "Git & GitHub for code and hardware documentation" },
+];
+
+const kitCategories = [
+  {
+    title: "Microcontrollers",
+    icon: Cpu,
+    items: ["Arduino Uno R3", "Raspberry Pi 4 (2GB+)", "ESP32 dev board", "USB cables & power adapters"],
+  },
+  {
+    title: "Sensors & Modules",
+    icon: CircuitBoard,
+    items: ["DHT11/22 (temp/humidity)", "HC-SR04 (ultrasonic)", "MPU-6050 (accelerometer)", "PIR motion sensor", "L298N motor driver"],
+  },
+  {
+    title: "Components & Tools",
+    icon: Wrench,
+    items: ["Breadboard & jumper wires", "Resistor & LED kit", "DC motors & servo motors", "Multimeter", "Soldering iron (optional)"],
+  },
+];
+
+const prerequisites = [
+  "Basic programming experience (any language) - Python familiarity is a plus",
+  "Access to the hardware kit listed above",
+  "A laptop with internet access for IDE installation and cloud platform access",
+  "8-10 hours per week for instruction, labs, and hardware build sessions",
+];
+---
+
+<BaseLayout title="Robotics & IoT" description="10-week hands-on program. Design, build and program intelligent systems.">
+  <Navbar slot="navbar" />
+
+  <CourseHero
+    title="Robotics &"
+    highlight="IoT"
+    description="Design, build, and program intelligent hardware systems. From microcontrollers and sensors to real-time control and cloud-connected IoT dashboards."
+    level="Beginner to Intermediate"
+    duration="10 Weeks"
+    topics="250+"
+    projects="5"
+  />
+
+  <CourseOverview
+    intro="Robotics & IoT is a 10-week hands-on program that takes you from electronics basics to building complete intelligent systems."
+    description="Students progress through four phases - electronics fundamentals and microcontroller programming, sensor integration and actuators, robotics systems and real-time control, and finally IoT connectivity, cloud dashboards, and a capstone project."
+    phases={phases}
+  />
+
+  <CourseCurriculum weeks={weeks} />
+  <CourseOutcomes outcomes={outcomes} />
+  <CourseHardwareKit categories={kitCategories} />
+  <CourseAssessment assessment={assessment} tools={tools} />
+  <CoursePrerequisites intro="No prior robotics or electronics experience is required." items={prerequisites} />
+  <CourseEnrollmentCTA
+    title="Ready to Build Intelligent Systems?"
+    description="Graduate with hardware projects you can hold, demonstrate, and deploy."
+  />
+
+  <Footer slot="footer" />
+</BaseLayout>

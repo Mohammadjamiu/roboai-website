@@ -1,0 +1,144 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navbar from "@/components/Navbar/Navbar.astro";
+import Footer from "@/components/Footer/Footer.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import CTASection from "@/components/Home/CTASection.astro";
+import { Lightbulb, Users, Rocket, Heart, ArrowRight } from "lucide-react";
+
+const values = [
+  {
+    icon: Lightbulb,
+    title: "Innovation First",
+    description: "Curriculum stays current with the latest advances in AI, robotics, and software engineering.",
+  },
+  {
+    icon: Users,
+    title: "Community Driven",
+    description: "Peer collaboration, mentorship, and a supportive network of builders and learners.",
+  },
+  {
+    icon: Rocket,
+    title: "Practical Learning",
+    description: "Every concept is reinforced through hands-on labs and real-world projects.",
+  },
+  {
+    icon: Heart,
+    title: "Accessible Education",
+    description: "Quality technical education designed to be inclusive, affordable, and globally available.",
+  },
+];
+
+const stats = [
+  { value: "500+", label: "Students trained" },
+  { value: "50+", label: "Projects built" },
+  { value: "95%", label: "Completion rate" },
+  { value: "3", label: "Core programs" },
+];
+---
+
+<BaseLayout title="About" description="Learn about RoboAI's mission to democratize AI and robotics education.">
+  <Navbar slot="navbar" />
+
+  <PageHeader
+    eyebrow="About RoboAI"
+    title="Shaping the future of tech education"
+    description="We believe understanding AI and robotics is about empowering the next generation to build a better world."
+  />
+
+  <section class="py-16 md:py-24">
+    <div class="responsive-container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div class="reveal">
+          <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-5">
+            From a vision to a learning platform
+          </h2>
+          <div class="space-y-4 text-muted-foreground leading-relaxed">
+            <p>
+              RoboAI was founded to bridge the gap between academic learning and industry demands in artificial intelligence, robotics, and software development.
+            </p>
+            <p>
+              Built by educators and engineers who experienced the challenges of learning complex technical skills firsthand, RoboAI combines theoretical depth with practical, hands-on experience.
+            </p>
+            <p>
+              From a small team to a growing community of learners, our focus remains the same: quality instruction, innovative curriculum, and an unwavering commitment to student success.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 reveal">
+          {stats.map((stat) => (
+            <div class="p-6 rounded-2xl border border-border bg-card">
+              <p class="text-3xl font-semibold tracking-tight text-primary mb-1">{stat.value}</p>
+              <p class="text-sm text-muted-foreground">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24 bg-muted/30">
+    <div class="responsive-container">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div class="order-2 lg:order-1 reveal">
+          <div class="aspect-square max-w-sm mx-auto rounded-2xl border border-border bg-card flex items-center justify-center p-8">
+            <div class="text-center space-y-4">
+              <div class="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <span class="text-3xl font-semibold text-primary">IA</span>
+              </div>
+              <p class="text-lg font-semibold">Engr. Idris Bello Akande</p>
+              <p class="text-sm text-muted-foreground">Founder & Lead Instructor</p>
+            </div>
+          </div>
+        </div>
+        <div class="order-1 lg:order-2 reveal">
+          <p class="text-xs font-semibold uppercase tracking-wider text-primary mb-3">Meet the Founder</p>
+          <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-5">
+            Engineer, researcher, educator
+          </h2>
+          <div class="space-y-4 text-muted-foreground leading-relaxed mb-6">
+            <p>
+              Idris is a Mechatronics Engineer with a First-Class degree from Bayero University, Kano. His research spans rehabilitation robotics, neuroengineering, machine learning, and human-robot interaction.
+            </p>
+            <p>
+              He founded RoboAI to make advanced technical education practical, accessible, and grounded in real engineering experience.
+            </p>
+          </div>
+          <a
+            href="/founder"
+            class="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors group"
+          >
+            Read full profile
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24">
+    <div class="responsive-container">
+      <div class="text-center max-w-xl mx-auto mb-12 reveal">
+        <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">
+          What drives us forward
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 max-w-3xl mx-auto">
+        {values.map((value, i) => (
+          <div class:list={["p-6 rounded-2xl border border-border bg-card shadow-sm reveal", `reveal-delay-${i + 1}`]}>
+            <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-primary/10 text-primary mb-4">
+              <value.icon className="w-5 h-5" />
+            </div>
+            <h3 class="text-base font-semibold mb-2">{value.title}</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed">{value.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection />
+  <Footer slot="footer" />
+</BaseLayout>

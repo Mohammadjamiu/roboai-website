@@ -1,0 +1,98 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navbar from "@/components/Navbar/Navbar.astro";
+import Footer from "@/components/Footer/Footer.astro";
+import CourseHero from "@/components/courses/CourseHero.astro";
+import CourseOverview from "@/components/courses/CourseOverview.astro";
+import CourseCurriculum from "@/components/courses/CourseCurriculum.astro";
+import CourseOutcomes from "@/components/courses/CourseOutcomes.astro";
+import CourseAssessment from "@/components/courses/CourseAssessment.astro";
+import CoursePrerequisites from "@/components/courses/CoursePrerequisites.astro";
+import CourseEnrollmentCTA from "@/components/courses/CourseEnrollmentCTA.astro";
+
+const phases = [
+  { phase: "Phase 1", weeks: "Weeks 1-2", focus: "Environment Setup, Variables & Data Types", outcome: "Write and run Python scripts confidently" },
+  { phase: "Phase 2", weeks: "Weeks 3-4", focus: "Control Flow & Core Data Structures", outcome: "Control program logic and manage complex data" },
+  { phase: "Phase 3", weeks: "Weeks 5-6", focus: "Functions, Modules & File Handling", outcome: "Write reusable code and persist data to disk" },
+  { phase: "Phase 4", weeks: "Weeks 7-8", focus: "OOP, Libraries & Capstone Project", outcome: "Build class-based programs and use real APIs" },
+];
+
+const weeks = [
+  { week: 1, phase: "Phase 1 - Getting Started", title: "Introduction to Python & Your Dev Environment", topics: [["What is Python?", "Installing Python 3", "VS Code / PyCharm setup"], ["Running your first script", "Python interactive shell (REPL)", "Comments & code style"], ["PEP 8 guidelines", "print() & input()", "Understanding errors"]], lab: "Set up your environment, write a 'Hello, World!' script, and a simple name/age input program." },
+  { week: 2, phase: "Phase 1 - Getting Started", title: "Variables, Data Types & Operators", topics: [["Variables & assignment", "Integers & floats", "Strings"], ["Booleans", "None type", "Type conversion"], ["Arithmetic operators", "Comparison operators", "Logical operators"], ["String concatenation", "f-strings", "Type checking with type()"]], lab: "Build a simple calculator that takes two numbers and an operator from user input and returns the result." },
+  { week: 3, phase: "Phase 2 - Core Programming", title: "Control Flow - Conditionals & Loops", topics: [["if / elif / else", "Nested conditionals", "Ternary expressions"], ["while loops", "for loops", "range()"], ["break & continue", "pass statement", "Nested loops"], ["Loop else clause"]], lab: "Build a number-guessing game using loops and conditionals with a limited number of attempts." },
+  { week: 4, phase: "Phase 2 - Core Programming", title: "Data Structures - Lists, Tuples, Sets & Dictionaries", topics: [["Lists & indexing", "List methods", "List slicing"], ["List comprehensions", "Tuples & immutability", "Sets & set operations"], ["Dictionaries", "Dictionary methods", "Nested structures"], ["Unpacking & spread", "zip() & enumerate()"]], lab: "Build a contact book program using dictionaries - add, search, update and delete entries." },
+  { week: 5, phase: "Phase 3 - Functions & Modules", title: "Functions - Defining, Calling & Scoping", topics: [["Defining functions", "Parameters & arguments", "Default parameters"], ["Keyword arguments", "*args & **kwargs", "Return values"], ["Multiple return values", "Scope (local/global)", "Lambda functions"], ["Higher-order functions", "map() filter() reduce()"]], lab: "Refactor the contact book from Week 4 into a fully function-based program with clean separation of concerns." },
+  { week: 6, phase: "Phase 3 - Functions & Modules", title: "Modules, Packages & File Handling", topics: [["Importing modules", "Standard library overview", "os & sys modules"], ["math & random", "datetime module", "Creating your own modules"], ["pip & virtual environments", "Reading text files", "Writing & appending files"], ["Working with CSV", "json module", "Error handling with try/except"]], lab: "Build a task manager that saves and loads to-do items from a JSON file using file I/O." },
+  { week: 7, phase: "Phase 4 - OOP & Libraries", title: "Object-Oriented Programming (OOP)", topics: [["Classes & objects", "Attributes & methods", "__init__ constructor"], ["Instance vs class variables", "Encapsulation", "Inheritance"], ["Method overriding", "super()", "Polymorphism"], ["Magic/dunder methods", "__str__ & __repr__", "Dataclasses"]], lab: "Build a simple bank account system using classes - deposits, withdrawals, and account history." },
+  { week: 8, phase: "Phase 4 - OOP & Libraries", title: "Working with Libraries & Capstone Project", topics: [["requests library", "Fetching data from APIs", "Parsing JSON responses"], ["Introduction to NumPy", "Introduction to Pandas", "Basic data visualisation (Matplotlib)"], ["Regular expressions (re)", "Capstone planning", "Code review best practices"], ["Debugging techniques"]], lab: "Capstone: Build a weather dashboard that fetches live data from a public API, processes it, and displays a summary report.", capstone: true },
+];
+
+const outcomes = [
+  { area: "Python Syntax & Basics", skill: "Write clean, readable Python scripts following PEP 8 style conventions" },
+  { area: "Variables & Data Types", skill: "Work confidently with integers, floats, strings, booleans, and None" },
+  { area: "Data Structures", skill: "Use lists, tuples, sets, and dictionaries to model and manipulate real-world data" },
+  { area: "Control Flow", skill: "Implement conditional logic and loops to control program execution" },
+  { area: "Functions & Modules", skill: "Write reusable functions, import modules, and manage packages with pip" },
+  { area: "File & Data Handling", skill: "Read, write, and parse text, CSV, and JSON files" },
+  { area: "Object-Oriented Programming", skill: "Design and implement classes with inheritance, encapsulation, and polymorphism" },
+  { area: "Working with Libraries", skill: "Fetch data from APIs with requests and process it using NumPy and Pandas" },
+  { area: "Debugging & Testing", skill: "Identify, diagnose, and fix common Python errors and exceptions" },
+  { area: "Capstone Project", skill: "Build and present a fully functional Python application from scratch" },
+];
+
+const assessment = [
+  { component: "Weekly Lab Exercises (Weeks 1-7)", weight: "40%", description: "Practical coding labs submitted after each session" },
+  { component: "Mid-Program Project (Week 4)", weight: "20%", description: "Contact book app using data structures and functions" },
+  { component: "OOP Mini-Project (Week 7)", weight: "20%", description: "Bank account system built with classes and inheritance" },
+  { component: "Capstone Project (Week 8)", weight: "20%", description: "Weather dashboard app integrating API data and libraries" },
+];
+
+const tools = [
+  { category: "Language", items: "Python 3.11+" },
+  { category: "Editor / IDE", items: "VS Code (recommended), PyCharm Community, or Thonny (beginners)" },
+  { category: "Package Manager", items: "pip, virtualenv" },
+  { category: "Standard Library", items: "os, sys, math, random, datetime, json, re, csv" },
+  { category: "Third-Party Libraries", items: "requests, NumPy, Pandas, Matplotlib" },
+  { category: "Version Control", items: "Git & GitHub (introduced in Week 6)" },
+  { category: "Practice Platforms", items: "Replit (online), Python Tutor (visualiser), LeetCode (optional)" },
+];
+
+const prerequisites = [
+  "A laptop or desktop computer (Windows, macOS, or Linux)",
+  "Internet access for downloading tools and accessing course materials",
+  "5-8 hours per week for lessons, exercises, and weekly lab projects",
+  "A willingness to experiment, make mistakes, and learn by doing",
+];
+---
+
+<BaseLayout title="Python Mastery" description="Master the fundamentals of Python programming. 8-week hands-on program from zero to confident Python developer.">
+  <Navbar slot="navbar" />
+
+  <CourseHero
+    title="Python"
+    highlight="Mastery"
+    description="Master the fundamentals of Python programming. Learn variables, data types, functions, and object-oriented programming through real-world projects. No prior experience required."
+    level="Beginner"
+    duration="8 Weeks"
+    topics="200+"
+    projects="8"
+  />
+
+  <CourseOverview
+    intro="Python Mastery is an 8-week hands-on program designed to take complete newcomers to confident Python developers."
+    description="Students progress through four phases - environment setup and Python basics, core programming constructs, functions and modules, and finally object-oriented programming and popular third-party libraries. The program closes with a capstone project that integrates all skills into a single deployable application."
+    phases={phases}
+  />
+
+  <CourseCurriculum weeks={weeks} />
+  <CourseOutcomes outcomes={outcomes} />
+  <CourseAssessment assessment={assessment} tools={tools} />
+  <CoursePrerequisites intro="This program is built for absolute beginners. No programming experience is needed." items={prerequisites} />
+  <CourseEnrollmentCTA
+    title="Ready to Start Your Python Journey?"
+    description="Join hundreds of students who went from zero programming experience to building real applications in just 8 weeks."
+  />
+
+  <Footer slot="footer" />
+</BaseLayout>

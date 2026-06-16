@@ -1,0 +1,60 @@
+---
+import { Wrench } from "lucide-react";
+
+interface AssessmentItem {
+  component: string;
+  weight: string;
+  description: string;
+}
+
+interface Tool {
+  category: string;
+  items: string;
+}
+
+interface Props {
+  assessment: AssessmentItem[];
+  tools: Tool[];
+}
+
+const { assessment, tools } = Astro.props;
+---
+
+<section class="py-16 md:py-24 bg-muted/30">
+  <div class="responsive-container">
+    <div class="max-w-4xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div class="reveal">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight mb-5">Assessment & Grading</h2>
+          <div class="space-y-3">
+            {assessment.map((a) => (
+              <div class="flex items-start gap-4 p-4 rounded-xl border border-border bg-card shadow-sm">
+                <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary font-semibold text-sm">
+                  {a.weight}
+                </div>
+                <div>
+                  <h3 class="text-sm font-semibold">{a.component}</h3>
+                  <p class="text-xs text-muted-foreground mt-0.5">{a.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="reveal reveal-delay-1">
+          <h2 class="text-xl md:text-2xl font-semibold tracking-tight mb-5">Tools & Technologies</h2>
+          <div class="space-y-3">
+            {tools.map((t) => (
+              <div class="flex items-start gap-4 p-4 rounded-xl border border-border bg-card shadow-sm">
+                <Wrench className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                <div>
+                  <h3 class="text-sm font-semibold">{t.category}</h3>
+                  <p class="text-xs text-muted-foreground mt-0.5">{t.items}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

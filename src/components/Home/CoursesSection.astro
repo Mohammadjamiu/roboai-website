@@ -1,0 +1,110 @@
+---
+import { Code, BrainCircuit, Cpu, ArrowRight, Clock, Users } from "lucide-react";
+
+const courses = [
+  {
+    icon: Code,
+    title: "Python Mastery",
+    description: "Master the language behind AI, data science, and automation through real projects.",
+    level: "Beginner - Intermediate",
+    duration: "8 weeks",
+    students: "180+",
+    href: "/courses/python",
+    featured: false,
+  },
+  {
+    icon: BrainCircuit,
+    title: "AI Fundamentals",
+    description: "Build machine learning and deep learning models. From math intuition to deployed models.",
+    level: "Intermediate",
+    duration: "12 weeks",
+    students: "220+",
+    href: "/courses/ai-fundamentals",
+    featured: true,
+  },
+  {
+    icon: Cpu,
+    title: "Robotics & IoT",
+    description: "Design autonomous systems with sensors, microcontrollers, and cloud connectivity.",
+    level: "Beginner - Intermediate",
+    duration: "10 weeks",
+    students: "150+",
+    href: "/courses/robotics-iot",
+    featured: false,
+  },
+];
+---
+
+<section class="relative py-20 md:py-28">
+  <div class="responsive-container">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12 reveal">
+      <div class="max-w-lg">
+        <p class="text-xs font-semibold uppercase tracking-wider text-primary mb-3">Programs</p>
+        <h2 class="text-3xl md:text-4xl font-semibold tracking-tight">
+          Choose your path
+        </h2>
+      </div>
+      <a
+        href="/courses"
+        class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors group"
+      >
+        View all programs
+        <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {courses.map((course, i) => (
+        <a
+          href={course.href}
+          class:list={[
+            "group relative flex flex-col p-6 md:p-7 rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover-lift reveal",
+            course.featured ? "lg:col-span-1" : "",
+            i === 0 ? "reveal-delay-1" : i === 1 ? "reveal-delay-2" : "reveal-delay-3",
+          ]}
+        >
+          {course.featured && (
+            <div class="absolute -top-px left-6 right-6 h-px bg-primary"></div>
+          )}
+
+          <div class="flex items-start justify-between mb-6">
+            <div class="flex items-center justify-center w-11 h-11 rounded-xl bg-primary/10 text-primary">
+              <course.icon className="w-5 h-5" />
+            </div>
+            {course.featured && (
+              <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider bg-primary/10 text-primary">
+                Popular
+              </span>
+            )}
+          </div>
+
+          <div class="mb-4">
+            <p class="text-xs text-muted-foreground mb-1.5 font-mono">{course.level}</p>
+            <h3 class="text-xl font-semibold tracking-tight mb-2 group-hover:text-primary transition-colors">
+              {course.title}
+            </h3>
+            <p class="text-sm text-muted-foreground leading-relaxed">
+              {course.description}
+            </p>
+          </div>
+
+          <div class="mt-auto pt-6 border-t border-border flex items-center justify-between">
+            <div class="flex items-center gap-3 text-xs text-muted-foreground">
+              <span class="flex items-center gap-1">
+                <Clock className="w-3.5 h-3.5" />
+                {course.duration}
+              </span>
+              <span class="flex items-center gap-1">
+                <Users className="w-3.5 h-3.5" />
+                {course.students}
+              </span>
+            </div>
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-muted text-foreground group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+              <ArrowRight className="w-4 h-4" />
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

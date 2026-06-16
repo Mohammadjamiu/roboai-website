@@ -1,0 +1,67 @@
+---
+import { ArrowRight } from "lucide-react";
+
+interface Props {
+  title: string;
+  highlight: string;
+  description: string;
+  level: string;
+  duration: string;
+  topics: string;
+  projects: string;
+}
+
+const { title, highlight, description, level, duration, topics, projects } = Astro.props;
+---
+
+<section class="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden">
+  <div class="absolute inset-0 bg-muted/30"></div>
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[100px]"></div>
+
+  <div class="relative z-10 responsive-container">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-primary/20 bg-primary/10 text-primary text-[11px] font-semibold uppercase tracking-wider mb-6">
+        {level} - {duration}
+      </div>
+      <h1 class="text-3xl md:text-5xl font-semibold tracking-tight mb-5">
+        {title} <span class="text-primary">{highlight}</span>
+      </h1>
+      <p class="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-8">
+        {description}
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-6 mb-10">
+        <div class="flex flex-col items-center">
+          <span class="text-xl font-semibold text-foreground">{duration}</span>
+          <span class="text-xs text-muted-foreground uppercase tracking-wider">Duration</span>
+        </div>
+        <div class="w-px h-8 bg-border hidden sm:block"></div>
+        <div class="flex flex-col items-center">
+          <span class="text-xl font-semibold text-foreground">{topics}</span>
+          <span class="text-xs text-muted-foreground uppercase tracking-wider">Topics</span>
+        </div>
+        <div class="w-px h-8 bg-border hidden sm:block"></div>
+        <div class="flex flex-col items-center">
+          <span class="text-xl font-semibold text-foreground">{projects}</span>
+          <span class="text-xs text-muted-foreground uppercase tracking-wider">Projects</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center gap-2 h-12 px-8 rounded-full text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-primary/10"
+        >
+          Enroll Now
+          <ArrowRight className="w-4 h-4" />
+        </a>
+        <a
+          href="#curriculum"
+          class="inline-flex items-center justify-center gap-2 h-12 px-8 rounded-full text-sm font-medium border border-input bg-background hover:bg-muted transition-all duration-200"
+        >
+          View Curriculum
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

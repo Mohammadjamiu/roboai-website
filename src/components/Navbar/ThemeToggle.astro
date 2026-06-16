@@ -1,0 +1,42 @@
+---
+import { Sun, Moon } from "lucide-react";
+---
+
+<button
+  class="theme-toggle inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-muted transition-all duration-200 relative"
+  aria-label="Toggle theme"
+>
+  <span class="theme-light-show w-4 h-4"><Sun className="w-4 h-4" /></span>
+  <span class="theme-dark-show absolute w-4 h-4"><Moon className="w-4 h-4" /></span>
+</button>
+
+<style>
+  .theme-light-show { display: inline-flex; }
+  .theme-dark-show { display: none; }
+  :global(.dark) .theme-light-show { display: none; }
+  :global(.dark) .theme-dark-show { display: inline-flex; }
+</style>
+
+<script>
+  function getTheme() {
+    const stored = localStorage.getItem("theme");
+    if (stored) return stored;
+    return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  }
+
+  function setTheme(theme: string) {
+    localStorage.setItem("theme", theme);
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }
+
+  document.querySelectorAll(".theme-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const current = getTheme();
+      setTheme(current === "dark" ? "light" : "dark");
+    });
+  });
+</script>

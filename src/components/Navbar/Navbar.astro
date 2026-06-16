@@ -1,0 +1,123 @@
+---
+import Logo from "./Logo.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+  { href: "/", label: "Home" },
+  { href: "/courses", label: "Courses" },
+  { href: "/projects", label: "Projects" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="responsive-container">
+    <div class="flex items-center justify-between h-16">
+      <Logo />
+
+      <div class="hidden md:flex items-center gap-1 bg-muted/50 rounded-full px-1.5 py-1">
+        {navLinks.map((link) => {
+          const isActive = currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href));
+          return (
+            <a
+              href={link.href}
+              class:list={[
+                "relative px-4 py-1.5 text-[13px] font-medium rounded-full transition-all duration-200",
+                isActive ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
+              ]}
+            >
+              {link.label}
+            </a>
+          );
+        })}
+      </div>
+
+      <div class="hidden md:flex items-center gap-3">
+        <ThemeToggle />
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center h-9 px-5 text-[13px] font-medium rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200 shadow-sm hover:shadow-md hover:shadow-primary/10"
+        >
+          Get Started
+        </a>
+      </div>
+
+      <div class="flex md:hidden items-center gap-2">
+        <ThemeToggle />
+        <button
+          id="mobile-menu-btn"
+          class="inline-flex items-center justify-center w-9 h-9 rounded-full hover:bg-muted transition-colors"
+          aria-label="Toggle menu"
+        >
+          <Menu className="w-4 h-4" id="menu-icon" />
+          <X className="w-4 h-4 hidden" id="close-icon" />
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden hidden absolute top-full left-0 right-0">
+    <div class="mx-4 mt-2 p-2 rounded-2xl bg-background/95 backdrop-blur-xl border border-border shadow-lg">
+      {navLinks.map((link) => {
+        const isActive = currentPath === link.href || (link.href !== "/" && currentPath.startsWith(link.href));
+        return (
+          <a
+            href={link.href}
+            class:list={[
+              "block py-2.5 px-4 text-sm font-medium rounded-xl transition-colors duration-200",
+              isActive
+                ? "bg-primary/10 text-primary"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted",
+            ]}
+          >
+            {link.label}
+          </a>
+        );
+      })}
+      <div class="pt-2 mt-2 border-t border-border">
+        <a
+          href="/contact"
+          class="block text-center py-2.5 px-4 text-sm font-medium rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200"
+        >
+          Get Started
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const navbar = document.getElementById("navbar");
+  const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const menuIcon = document.getElementById("menu-icon");
+  const closeIcon = document.getElementById("close-icon");
+
+  function updateNavbar() {
+    if (window.scrollY > 20) {
+      navbar?.classList.add("bg-background/80", "backdrop-blur-xl", "border-b", "border-border/40");
+    } else {
+      navbar?.classList.remove("bg-background/80", "backdrop-blur-xl", "border-b", "border-border/40");
+    }
+  }
+
+  window.addEventListener("scroll", updateNavbar);
+  updateNavbar();
+
+  mobileMenuBtn?.addEventListener("click", () => {
+    const isOpen = !mobileMenu?.classList.contains("hidden");
+    if (isOpen) {
+      mobileMenu?.classList.add("hidden");
+      menuIcon?.classList.remove("hidden");
+      closeIcon?.classList.add("hidden");
+    } else {
+      mobileMenu?.classList.remove("hidden");
+      menuIcon?.classList.add("hidden");
+      closeIcon?.classList.remove("hidden");
+    }
+  });
+</script>

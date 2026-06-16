@@ -1,0 +1,86 @@
+---
+import { CheckCircle2, ChevronDown } from "lucide-react";
+
+interface Week {
+  week: number;
+  phase: string;
+  title: string;
+  topics: string[][];
+  lab: string;
+  capstone?: boolean;
+  project?: boolean;
+}
+
+interface Props {
+  weeks: Week[];
+}
+
+const { weeks } = Astro.props;
+---
+
+<section id="curriculum" class="py-16 md:py-24 bg-muted/30">
+  <div class="responsive-container">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12 reveal">
+        <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-4">Weekly Curriculum</h2>
+        <p class="text-muted-foreground">Click any week to expand topics and lab assignment.</p>
+      </div>
+      <div class="space-y-3">
+        {weeks.map((week) => (
+          <details class="group rounded-xl border border-border bg-card overflow-hidden shadow-sm reveal">
+            <summary class="flex items-center justify-between gap-4 p-5 cursor-pointer select-none hover:bg-muted/50 transition-colors list-none">
+              <div class="flex items-center gap-4">
+                <div class:list={[
+                  "flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center font-semibold text-sm bg-primary/10 text-primary",
+                  week.capstone && "bg-primary text-primary-foreground",
+                ]}>
+                  W{week.week}
+                </div>
+                <div>
+                  <p class="text-xs text-muted-foreground font-medium font-mono mb-0.5">{week.phase}</p>
+                  <h3 class="font-semibold text-sm">{week.title}</h3>
+                </div>
+                {week.capstone && (
+                  <span class="hidden sm:inline-flex text-[10px] font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                    Capstone
+                  </span>
+                )}
+                {week.project && (
+                  <span class="hidden sm:inline-flex text-[10px] font-semibold px-2 py-0.5 rounded-full bg-muted text-muted-foreground border border-border">
+                    Project
+                  </span>
+                )}
+              </div>
+              <ChevronDown className="w-4 h-4 text-muted-foreground transition-transform group-open:rotate-180" />
+            </summary>
+            <div class="px-5 pb-5 pt-0">
+              <div class="pl-14 space-y-4">
+                <div>
+                  <h4 class="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-3">Topics Covered</h4>
+                  <div class="space-y-2">
+                    {week.topics.map((row) => (
+                      <div class="flex flex-wrap gap-2">
+                        {row.map((topic) => (
+                          <span class="inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full bg-muted border border-border text-foreground">
+                            <CheckCircle2 className="w-3 h-3 text-primary shrink-0" />
+                            {topic}
+                          </span>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div class="p-4 rounded-xl border bg-primary/5 border-primary/10">
+                  <h4 class="text-[11px] font-semibold uppercase tracking-wider text-primary mb-1">
+                    {week.capstone ? "Capstone Project" : "Lab / Deliverable"}
+                  </h4>
+                  <p class="text-sm text-muted-foreground">{week.lab}</p>
+                </div>
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
