@@ -12,6 +12,9 @@ import {
   Bot,
   Cpu,
   Mail,
+  Phone,
+  Linkedin,
+  Github,
   BadgeCheck,
 } from "lucide-react";
 
@@ -66,12 +69,12 @@ const memberships = [
 ];
 ---
 
-<BaseLayout title="Engr. Idris Bello Akande | Founder of RoboAI" description="Idris Bello Akande is a Mechatronics Engineer and founder of RoboAI, dedicated to empowering the next generation of engineers through AI, robotics, and programming education.">
+<BaseLayout title="Engr. Idris Bello Akande GMNSE | Founder of RoboAI" description="Idris Bello Akande GMNSE is a Mechatronics Engineer and founder of RoboAI, dedicated to empowering the next generation of engineers through AI, robotics, and programming education.">
   <Navbar slot="navbar" />
 
   <PageHeader
     eyebrow="Founder"
-    title="Engr. Idris Bello Akande"
+    title="Engr. Idris Bello Akande GMNSE"
     description="Mechatronics Engineer, researcher, and founder of RoboAI."
   />
 
@@ -80,15 +83,15 @@ const memberships = [
       <div class="max-w-4xl mx-auto">
         <div class="flex flex-col md:flex-row items-start gap-8 mb-12 reveal">
           <div class="flex-shrink-0">
-            <div class="w-28 h-28 md:w-36 md:h-36 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
-              <span class="text-4xl md:text-5xl font-semibold text-primary">IA</span>
+            <div class="w-28 h-28 md:w-36 md:h-36 rounded-2xl bg-primary/10 border border-primary/20 overflow-hidden">
+              <img src="/authors-image.png" alt="Engr. Idris Bello Akande GMNSE" class="w-full h-full object-cover" />
             </div>
           </div>
 
           <div class="flex-1 space-y-4">
             <div>
               <div class="flex items-center gap-2 mb-1">
-                <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">Engr. Idris Bello Akande</h2>
+                <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">Engr. Idris Bello Akande GMNSE</h2>
                 <BadgeCheck className="w-5 h-5 text-primary" />
               </div>
               <p class="text-sm text-muted-foreground">Mechatronics Engineer - Founder, RoboAI</p>
@@ -105,11 +108,36 @@ const memberships = [
 
             <div class="flex flex-wrap gap-3 pt-2">
               <a
-                href="mailto:hello@roboai.com"
+                href="tel:+2347061142372"
+                class="inline-flex items-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium border border-input hover:bg-muted transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+                +2347061142372
+              </a>
+              <a
+                href="mailto:akandeidrisbello@gmail.com"
                 class="inline-flex items-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium border border-input hover:bg-muted transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                Contact
+                Email
+              </a>
+              <a
+                href="https://www.linkedin.com/in/idris-akande-bello-0824b5382"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium border border-input hover:bg-muted transition-colors"
+              >
+                <Linkedin className="w-4 h-4" />
+                LinkedIn
+              </a>
+              <a
+                href="https://github.com/idrisabello"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium border border-input hover:bg-muted transition-colors"
+              >
+                <Github className="w-4 h-4" />
+                GitHub
               </a>
               <a
                 href="/courses"
@@ -251,13 +279,40 @@ const memberships = [
               <p class="text-xs text-muted-foreground mb-4 leading-relaxed">
                 Interested in collaboration, research, or speaking engagements?
               </p>
-              <a
-                href="mailto:hello@roboai.com"
-                class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200 w-full"
-              >
-                <Mail className="w-4 h-4" />
-                Get in Touch
-              </a>
+              <div class="space-y-2">
+                <a
+                  href="tel:+2347061142372"
+                  class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium border border-input hover:bg-muted transition-colors w-full"
+                >
+                  <Phone className="w-4 h-4" />
+                  +2347061142372
+                </a>
+                <a
+                  href="mailto:akandeidrisbello@gmail.com"
+                  class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-200 w-full"
+                >
+                  <Mail className="w-4 h-4" />
+                  Send Email
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/idris-akande-bello-0824b5382"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium border border-input hover:bg-muted transition-colors w-full"
+                >
+                  <Linkedin className="w-4 h-4" />
+                  LinkedIn
+                </a>
+                <a
+                  href="https://github.com/idrisabello"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center justify-center gap-1.5 h-9 px-4 rounded-full text-sm font-medium border border-input hover:bg-muted transition-colors w-full"
+                >
+                  <Github className="w-4 h-4" />
+                  GitHub
+                </a>
+              </div>
             </div>
           </div>
         </div>
