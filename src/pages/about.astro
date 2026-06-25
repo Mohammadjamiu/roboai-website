@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar/Navbar.astro";
 import Footer from "@/components/Footer/Footer.astro";
 import PageHeader from "@/components/PageHeader.astro";
 import CTASection from "@/components/Home/CTASection.astro";
-import { Lightbulb, Users, Rocket, Heart, ArrowRight } from "lucide-react";
+import { Lightbulb, Users, Rocket, Heart, ArrowRight, Mail, Bot, Cpu, BrainCircuit, Shield } from "lucide-react";
 
 const values = [
   {
@@ -73,6 +73,122 @@ const stats = [
               <p class="text-sm text-muted-foreground">{stat.label}</p>
             </div>
           ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24">
+    <div class="responsive-container">
+      <div class="text-center max-w-xl mx-auto mb-12 reveal">
+        <p class="text-xs font-semibold uppercase tracking-wider text-primary mb-3">Our Team</p>
+        <h2 class="text-2xl md:text-3xl font-semibold tracking-tight">
+          Meet the engineers behind RoboAI
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="p-6 rounded-2xl border border-border bg-card shadow-sm reveal">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-16 h-16 rounded-xl bg-primary/10 border border-primary/20 overflow-hidden flex-shrink-0">
+              <img src="/yazeed-image.png" alt="Engr Yezeed Mohammed GMNSE" class="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold">Engr Yezeed Mohammed GMNSE</h3>
+              <p class="text-sm text-primary">Mechatronics Engineer</p>
+            </div>
+          </div>
+          <p class="text-sm text-muted-foreground leading-relaxed mb-4">
+            Motivated and innovative Mechatronics Engineer with hands-on experience in robotics, embedded systems, 3D printing and CNC machining. Skilled in 3D design, programming, and automation, with a strong passion for integrating hardware and software to develop efficient engineering solutions.
+          </p>
+          <div class="mb-4">
+            <p class="text-xs font-medium mb-2">Education</p>
+            <p class="text-sm text-muted-foreground">Bachelor's degree in Mechatronics Engineering, Air Force Institute of Technology</p>
+          </div>
+          <div class="mb-4">
+            <p class="text-xs font-medium mb-2">Research Interests</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Robotics & Automation</span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Embedded Systems</span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Drone Technology</span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Humanoid Robots</span>
+            </div>
+          </div>
+          <a href="mailto:yezeedmuhammedking@gmail.com" class="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 transition-colors">
+            <Mail className="w-3.5 h-3.5" />
+            Contact
+          </a>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-border bg-card shadow-sm reveal">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-16 h-16 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
+              <span class="text-2xl font-semibold text-primary">YM</span>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold">Yazeed Muhammed</h3>
+              <p class="text-sm text-primary">AI & Robotics Engineer</p>
+            </div>
+          </div>
+          <p class="text-sm text-muted-foreground leading-relaxed mb-4">
+            First-Class Mechatronics Engineering graduate from the Air Force Institute of Technology (AFIT), with a CGPA of 4.82/5.00. Passionate about developing AI-driven solutions that address real-world challenges and advance the capabilities of intelligent machines.
+          </p>
+          <div class="mb-4">
+            <p class="text-xs font-medium mb-2">Education</p>
+            <p class="text-sm text-muted-foreground">B.Eng Mechatronics Engineering, First Class (CGPA 4.82/5.00), Air Force Institute of Technology</p>
+          </div>
+          <div class="mb-4">
+            <p class="text-xs font-medium mb-2">Research Interests</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Artificial Intelligence</span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Machine Learning</span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Computer Vision</span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">RAG Systems</span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Cybersecurity</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 text-sm text-muted-foreground">
+            <Shield className="w-3.5 h-3.5" />
+            <span>ASL Detection, Threat Detection Systems</span>
+          </div>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-border bg-card shadow-sm reveal">
+          <div class="flex items-start gap-4 mb-4">
+            <div class="w-16 h-16 rounded-xl bg-primary/10 border border-primary/20 overflow-hidden flex-shrink-0">
+              <img src="/mohammad-jamiu.png" alt="Mohammad-Jamiu B. Balogun GMNSE" class="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold">Mohammad-Jamiu B. Balogun GMNSE</h3>
+              <p class="text-sm text-primary">AI Security Researcher</p>
+            </div>
+          </div>
+          <p class="text-sm text-muted-foreground leading-relaxed mb-4">
+            AI security researcher and telecommunications engineer with a First-Class degree (CGPA 4.64/5.00) from Bayero University, Kano. Founder of MonoEd Africa, an edtech platform serving over 10,000 students across Nigeria.
+          </p>
+          <div class="mb-4">
+            <p class="text-xs font-medium mb-2">Education</p>
+            <p class="text-sm text-muted-foreground">B.Eng Telecommunications Engineering, First Class (CGPA 4.64/5.00), Best Graduating Student, BUK</p>
+          </div>
+          <div class="mb-4">
+            <p class="text-xs font-medium mb-2">Research Interests</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">AI & LLM Security</span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Secure Code Generation</span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Network Security</span>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-muted border border-border">Cybersecurity</span>
+            </div>
+          </div>
+          <div class="mb-4">
+            <p class="text-xs font-medium mb-2">Selected Publications</p>
+            <p class="text-xs text-muted-foreground leading-relaxed">Security Benchmarking of AI-Generated Web Application Code (2026) — World Journal of Advanced Engineering Technology and Sciences</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <a href="mailto:mohammad-jamiu@example.com" class="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary/80 transition-colors">
+              <Mail className="w-3.5 h-3.5" />
+              Contact
+            </a>
+          </div>
         </div>
       </div>
     </div>
