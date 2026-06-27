@@ -1,0 +1,293 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Navbar from "@/components/Navbar/Navbar.astro";
+import Footer from "@/components/Footer/Footer.astro";
+import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
+---
+
+<BaseLayout title="Torque Control of an Elbow Joint Using MDP and Deep Q-Network" description="A simulation-based torque control approach for an elbow joint using reinforcement learning for rehabilitation robotics.">
+  <Navbar slot="navbar" />
+
+  <article class="pt-24 pb-16 md:pt-28 md:pb-24">
+    <div class="responsive-container">
+      <div class="max-w-3xl mx-auto">
+        <a href="/blog" class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8">
+          <ArrowLeft className="w-4 h-4" />
+          Back to Blog
+        </a>
+
+        <header class="mb-10">
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="text-[10px] px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">Reinforcement Learning</span>
+            <span class="text-[10px] px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">Robotics</span>
+            <span class="text-[10px] px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">DQN</span>
+            <span class="text-[10px] px-2.5 py-1 rounded-full bg-primary/10 text-primary font-medium">Rehabilitation</span>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Torque Control of an Elbow Joint Using a Markov Decision Process and Deep Q-Network: A Simulation Study</h1>
+          <div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+            <span class="flex items-center gap-1.5"><User className="w-4 h-4" /> Engr. Idris Bello Akande GMNSE</span>
+            <span class="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> June 2026</span>
+            <span class="flex items-center gap-1.5"><Clock className="w-4 h-4" /> 15 min read</span>
+          </div>
+        </header>
+
+        <div class="prose prose-neutral dark:prose-invert max-w-none">
+
+          <h2>Abstract</h2>
+          <p>Upper-limb rehabilitation focuses on restoring strength, mobility, and functional movement after injury, illness, or surgery, with robotic assistive systems providing controlled motion support during recovery. However, accurate torque control of the elbow joint remains challenging due to nonlinear dynamics and uncertainties in human-robot interaction. This study presents a simulation-based torque control approach for an elbow joint using a Markov Decision Process (MDP) and Deep Q-Network (DQN). The elbow joint is modeled as a nonlinear single-degree-of-freedom system, while the DQN agent learns an optimal torque policy for tracking a desired joint trajectory. Results show that the DQN-based controller is capable of achieving stable and effective elbow joint torque control.</p>
+
+          <p class="text-sm text-muted-foreground"><strong>Keywords:</strong> Markov Decision Process, Deep Q-Network, Reinforcement Learning, Elbow Joint, Torque Control, Rehabilitation Robotics, Numerical Simulation.</p>
+
+          <h2>1. Introduction</h2>
+          <p>The elbow joint plays an important role in upper-limb movement, enabling daily activities such as reaching, lifting, and object manipulation. Impairments in elbow function are commonly associated with neurological disorders such as stroke and spinal cord injury, often resulting in reduced motor control and limited mobility that require rehabilitation therapy.</p>
+          <p>In recent years, rehabilitation robotics has gained attention as an effective approach for assisting upper-limb recovery through controlled and repetitive therapeutic motion. Robotic exoskeletons developed for elbow rehabilitation can provide adjustable support and improve motor recovery outcomes. However, achieving accurate and stable torque control remains a major challenge due to the nonlinear dynamics of the human arm and uncertainties associated with human-robot interaction.</p>
+          <p>Conventional control techniques such as proportional-integral-derivative (PID) and model-based computed torque control have been widely applied in robotic systems. Although these methods can provide satisfactory performance under ideal conditions, they often depend on accurate mathematical models and may experience performance degradation in the presence of nonlinear dynamics, external disturbances, and patient-specific variations.</p>
+          <p>These limitations have motivated increasing interest in data-driven and learning-based control strategies. One promising solution is reinforcement learning (RL), in which an agent improves its control decisions through repeated interaction with the environment. The learning problem is commonly represented as a Markov Decision Process (MDP), where actions are selected based on the current system state in order to maximize long-term reward. Recent developments in deep reinforcement learning, especially Deep Q-Networks (DQN), have shown good performance in robotic control problems by learning effective control policies directly from system interaction.</p>
+
+          <h2>2. Elbow Joint Dynamic Model</h2>
+          <p>The elbow joint is commonly modeled as a single-degree-of-freedom (1-DOF) rotational system representing flexion and extension motion in the sagittal plane. This simplification is widely adopted in rehabilitation robotics and manipulator modeling because it captures the essential dynamics of upper-limb motion while maintaining analytical simplicity.</p>
+          <p>The nonlinear equation of motion describing the elbow dynamics is given by:</p>
+          <div class="my-6 p-4 rounded-xl bg-muted border border-border font-mono text-sm text-center">
+            I*theta_ddot + b*theta_dot + mgl*sin(theta) = tau
+          </div>
+          <p>where <strong>theta</strong> is the elbow joint angle, <strong>theta_dot</strong> and <strong>theta_ddot</strong> denote the angular velocity and angular acceleration respectively, <strong>I</strong> is the moment of inertia of the forearm-hand segment, <strong>b</strong> is the viscous damping coefficient, <strong>m</strong> represents the mass of the forearm-hand segment, <strong>g</strong> is the gravitational acceleration, <strong>l</strong> is the distance from the elbow joint to the center of mass, and <strong>tau</strong> is the applied control torque.</p>
+          <p>The nonlinear gravitational component <strong>mgl*sin(theta)</strong> arises from the Euler-Lagrange formulation commonly used in robotic manipulator dynamics. This term introduces state-dependent nonlinearity into the system, making the model more representative of real biomechanical motion and human-robot interaction conditions.</p>
+
+          <h3>State-Space Representation</h3>
+          <p>For reinforcement learning implementation, the nonlinear dynamic model is expressed in state-space form by defining the state variables as:</p>
+          <div class="my-4 p-4 rounded-xl bg-muted border border-border font-mono text-sm text-center">
+            x1 = theta&#x2003;&#x2003;x2 = theta_dot
+          </div>
+          <p>The resulting state-space representation becomes:</p>
+          <div class="my-4 p-4 rounded-xl bg-muted border border-border font-mono text-sm text-center">
+            theta_dot = x2<br/>
+            x2_dot = (tau - b*x2 - mgl*sin(x1)) / I
+          </div>
+
+          <h2>3. Markov Decision Process Formulation</h2>
+          <p>The elbow joint torque control problem is represented using a Markov Decision Process (MDP), a framework commonly used for sequential decision-making problems involving uncertainty. An MDP is defined by the tuple (S, A, P, R, gamma), where S represents the state space, A is the action space, P denotes the state transition probability, R is the reward function, and gamma is the discount factor.</p>
+
+          <h3>3.1 State Space</h3>
+          <p>The state of the elbow joint system is defined as:</p>
+          <div class="my-4 p-4 rounded-xl bg-muted border border-border font-mono text-sm text-center">
+            s = [theta, theta_dot, e]^T&#x2003;&#x2003;where e = theta - theta_desired
+          </div>
+          <p>This state representation captures both the physical dynamics of the joint and the control objective of trajectory tracking.</p>
+
+          <h3>3.2 Action Space</h3>
+          <p>The action corresponds to the torque applied at the elbow joint. For DQN implementation, the continuous torque input is discretized into finite action levels:</p>
+          <div class="my-4 p-4 rounded-xl bg-muted border border-border font-mono text-sm text-center">
+            A = &#123;tau_1, tau_2, &#x2026;, tau_n&#125;
+          </div>
+
+          <h3>3.3 Reward Function</h3>
+          <p>The reward function is designed to encourage accurate trajectory tracking while penalizing excessive torque usage:</p>
+          <div class="my-4 p-4 rounded-xl bg-muted border border-border font-mono text-sm text-center">
+            R = -alpha*e^2 - beta*tau^2
+          </div>
+          <p>where the first term penalizes tracking error, the second term penalizes excessive control effort, and alpha and beta are weighting factors that balance accuracy and energy efficiency.</p>
+
+          <h2>4. Deep Reinforcement Learning Method</h2>
+          <p>The torque control problem formulated as an MDP is solved using a Deep Q-Network (DQN) approach. In reinforcement learning, the controller improves its decision-making ability through repeated interaction with the environment instead of depending entirely on an exact mathematical description of the system dynamics.</p>
+
+          <h3>4.1 Q-Function Definition</h3>
+          <p>The action value function, or Q-function, is defined as:</p>
+          <div class="my-4 p-4 rounded-xl bg-muted border border-border font-mono text-sm text-center">
+            Q^pi(s, a) = E_pi[R_t + gamma*R&#123;t+1&#125; + gamma^2*R&#123;t+2&#125; + &#x2026; | s_t=s, a_t=a]
+          </div>
+          <p>The objective of the DQN agent is to approximate the optimal action-value function Q*(s, a), which satisfies the Bellman optimality condition.</p>
+
+          <h3>4.2 Deep Q-Network Architecture</h3>
+          <p>In the DQN framework, a neural network is used to approximate the Q-function: Q(s, a; theta). The network takes the system state as input and outputs estimated Q-values for all possible torque actions.</p>
+          <p><strong>Network input:</strong></p>
+          <ul>
+            <li>Elbow joint angle, theta</li>
+            <li>Angular velocity, theta_dot</li>
+            <li>Tracking error, e</li>
+          </ul>
+          <p>The output layer represents discrete torque actions applied to the elbow joint. Fully connected hidden layers with ReLU activation functions are used to learn the relationship between system states and control actions.</p>
+
+          <h3>4.3 DQN Learning Update</h3>
+          <p>The DQN parameters are updated using the Bellman equation:</p>
+          <div class="my-4 p-4 rounded-xl bg-muted border border-border font-mono text-sm text-center">
+            y = R + gamma*max_a' Q(s', a'; theta^-)<br/>
+            L(theta) = E[(y - Q(s, a; theta))^2]
+          </div>
+
+          <h3>4.4 Exploration Strategy</h3>
+          <p>An epsilon-greedy policy is employed to balance exploration and exploitation. With probability epsilon, the agent selects a random torque action to explore the environment, while with probability 1-epsilon, the action with the highest predicted Q-value is selected. The exploration rate is gradually reduced during training to improve convergence toward an optimal policy.</p>
+
+          <h3>4.5 Experience Replay and Target Network</h3>
+          <p>To improve training stability, experience replay is employed by storing previous interactions (s, a, R, s') in a replay memory buffer. During training, randomly selected mini-batches from the replay memory are used to reduce dependence between consecutive samples.</p>
+          <p>A separate target network is also used to stabilize Q-value updates. The target network parameters are periodically updated using the parameters of the main network, helping to reduce oscillations during training.</p>
+
+          <h2>5. Simulation Setup</h2>
+          <p>The study is conducted entirely in a numerical simulation environment developed in Python using PyTorch, allowing safe, repeatable, and controlled evaluation of reinforcement learning performance without the need for physical hardware implementation.</p>
+
+          <h3>5.1 System Parameters</h3>
+          <div class="my-6 overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-border">
+                  <th class="text-left py-2 px-3 font-medium">Parameter</th>
+                  <th class="text-left py-2 px-3 font-medium">Symbol</th>
+                  <th class="text-left py-2 px-3 font-medium">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Moment of inertia</td><td class="py-2 px-3 font-mono">I</td><td class="py-2 px-3">1.0 kg*m^2</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Damping coefficient</td><td class="py-2 px-3 font-mono">b</td><td class="py-2 px-3">2.0 N*m*s/rad</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Forearm-hand mass</td><td class="py-2 px-3 font-mono">m</td><td class="py-2 px-3">1.0 kg</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Distance to COM</td><td class="py-2 px-3 font-mono">l</td><td class="py-2 px-3">0.20 m</td></tr>
+                <tr><td class="py-2 px-3">Gravitational acceleration</td><td class="py-2 px-3 font-mono">g</td><td class="py-2 px-3">9.81 m/s^2</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>5.2 DQN Configuration</h3>
+          <div class="my-6 overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="border-b border-border">
+                  <th class="text-left py-2 px-3 font-medium">Parameter</th>
+                  <th class="text-left py-2 px-3 font-medium">Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Algorithm</td><td class="py-2 px-3">Deep Q-Network (DQN)</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Training episodes</td><td class="py-2 px-3">300</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Steps per episode</td><td class="py-2 px-3">300</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Learning rate</td><td class="py-2 px-3">0.001</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Discount factor (gamma)</td><td class="py-2 px-3">0.99</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Batch size</td><td class="py-2 px-3">64</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Replay buffer capacity</td><td class="py-2 px-3">10,000</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">Exploration strategy</td><td class="py-2 px-3">epsilon-greedy</td></tr>
+                <tr class="border-b border-border/50"><td class="py-2 px-3">epsilon decay rate</td><td class="py-2 px-3">0.995</td></tr>
+                <tr><td class="py-2 px-3">Minimum epsilon</td><td class="py-2 px-3">0.05</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>5.3 Evaluation Metrics</h3>
+          <p>Performance is evaluated using:</p>
+          <ul>
+            <li><strong>Mean Squared Tracking Error (MSTE):</strong> MSTE = (1/N) * sum((theta - theta_desired)^2)</li>
+            <li><strong>Cumulative control effort:</strong> sum(|tau|)</li>
+            <li><strong>Visual analysis:</strong> learning curves, trajectory tracking plots, torque signal plots, tracking error plots</li>
+          </ul>
+
+          <h2>6. Results and Discussion</h2>
+
+          <h3>6.1 Learning Performance</h3>
+          <p>The learning performance of the proposed controller is evaluated using the average cumulative reward obtained during training.</p>
+          <figure class="my-8">
+            <img src="/figure1_learning_curve.png" alt="Learning Curve of the DQN Controller" class="w-full rounded-xl border border-border" />
+            <figcaption class="text-sm text-muted-foreground text-center mt-3">Figure 1: Learning Curve of the DQN Controller</figcaption>
+          </figure>
+          <p>The learning curve shows the evolution of the average reward as training progresses. At the early stage of training, the reward values fluctuate significantly due to the exploration behavior of the epsilon-greedy policy. As the number of episodes increases, the average reward gradually improves and becomes more stable, indicating that the agent successfully learns an effective torque control policy for the elbow joint system.</p>
+
+          <h3>6.2 Elbow Joint Trajectory Tracking</h3>
+          <p>The trained DQN controller is tested on the nonlinear elbow joint model using a desired joint trajectory of theta_desired = pi/4 rad.</p>
+          <figure class="my-8">
+            <img src="/figure2_tracking_angle.png" alt="Elbow Joint Angle Tracking Performance" class="w-full rounded-xl border border-border" />
+            <figcaption class="text-sm text-muted-foreground text-center mt-3">Figure 2: Elbow Joint Angle Tracking Performance</figcaption>
+          </figure>
+          <p>The trajectory tracking result demonstrates that the DQN-based controller is able to drive the elbow joint toward the desired angle with stable behavior. The response exhibits smooth convergence with minimal oscillatory behavior, indicating that the learned torque policy can effectively compensate for the nonlinear dynamics of the elbow system.</p>
+
+          <h3>6.3 Torque Control Signal</h3>
+          <figure class="my-8">
+            <img src="/figure3_torque_signal.png" alt="Torque Control Signal" class="w-full rounded-xl border border-border" />
+            <figcaption class="text-sm text-muted-foreground text-center mt-3">Figure 3: Torque Control Signal</figcaption>
+          </figure>
+          <p>The torque profile shows that the controller applies varying torque levels during the motion. Larger torque values are observed during the initial stages when the tracking error is relatively high, while smaller corrective torques are applied as the joint approaches the desired trajectory. The discrete nature of the torque signal results from the discretized action space used in the MDP formulation.</p>
+
+          <h3>6.4 Tracking Error Analysis</h3>
+          <figure class="my-8">
+            <img src="/figure4_tracking_error.png" alt="Tracking Error Response" class="w-full rounded-xl border border-border" />
+            <figcaption class="text-sm text-muted-foreground text-center mt-3">Figure 4: Tracking Error Response</figcaption>
+          </figure>
+          <p>The tracking error decreases progressively as the simulation evolves, indicating that the controller gradually improves the alignment between the actual and desired elbow motion. Although small residual fluctuations are present due to the discrete action space and nonlinear system dynamics, the overall tracking error remains bounded and stable throughout the simulation period.</p>
+          <p>The <strong>Mean Squared Tracking Error (MSTE)</strong> obtained during simulation was <strong>0.0021 rad^2</strong>, indicating accurate trajectory tracking performance.</p>
+
+          <h3>6.5 DQN Training Loss</h3>
+          <figure class="my-8">
+            <img src="/figure5_training_loss.png" alt="DQN Training Loss" class="w-full rounded-xl border border-border" />
+            <figcaption class="text-sm text-muted-foreground text-center mt-3">Figure 5: DQN Training Loss</figcaption>
+          </figure>
+          <p>The loss curve illustrates the convergence behavior of the neural network during training. At the beginning of training, larger fluctuations are observed due to random exploration and unstable Q-value estimation. As training progresses, the loss gradually decreases and becomes more stable, indicating improved approximation of the optimal action-value function.</p>
+
+          <h3>6.6 Discussion</h3>
+          <p>The simulation results demonstrate that the proposed MDP-DQN framework can successfully learn torque control policies for nonlinear elbow joint motion. One major advantage of the proposed method is that the controller learns suitable torque actions directly from interaction with the environment, reducing dependence on precise inverse dynamic modeling of the elbow system.</p>
+          <p>This makes the approach potentially suitable for rehabilitation robotics applications where system dynamics may vary across patients or operating conditions. The results also highlight some limitations: since the torque action space is discretized, the generated torque signal exhibits discrete switching behavior, which may introduce small oscillations in the tracking response. In addition, the study is limited to a simplified single-degree-of-freedom elbow model implemented entirely in simulation.</p>
+
+          <h2>7. Conclusion</h2>
+          <p>This study presented a simulation-based torque control approach for an elbow joint using a Markov Decision Process (MDP) framework and a Deep Q-Network (DQN). The elbow joint was modeled as a nonlinear single-degree-of-freedom system, and a reinforcement learning agent was trained to learn an optimal torque policy for trajectory tracking. Results from numerical simulations showed that the proposed method can achieve stable learning behavior, effective trajectory tracking, and bounded control effort. The study demonstrates the potential of reinforcement learning-based controllers for nonlinear rehabilitation systems.</p>
+          <p><strong>Future work</strong> will focus on extending the approach to continuous action spaces and validating the method on more complex upper-limb models.</p>
+
+          <h2>References</h2>
+          <ol class="text-sm text-muted-foreground">
+            <li>R. S. Sutton and A. G. Barto, <em>Reinforcement Learning: An Introduction</em>, 2nd ed. MIT Press, 2018.</li>
+            <li>V. Mnih et al., "Human-level control through deep reinforcement learning," <em>Nature</em>, vol. 518, pp. 529-533, 2015.</li>
+            <li>S. Lillicrap et al., "Continuous control with deep reinforcement learning," <em>ICLR</em>, 2016.</li>
+            <li>J. Schulman et al., "Proximal policy optimization algorithms," <em>arXiv:1707.06347</em>, 2017.</li>
+            <li>D. P. Kingma and J. Ba, "Adam: A method for stochastic optimization," <em>ICLR</em>, 2015.</li>
+            <li>O. Deisenroth, G. Neumann, and J. Peters, "A survey on policy search for robotics," <em>Foundations and Trends in Robotics</em>, vol. 2, pp. 1-142, 2013.</li>
+            <li>M. W. Spong, S. Hutchinson, and M. Vidyasagar, <em>Robot Modeling and Control</em>, 1st ed. Wiley, 2006.</li>
+            <li>R. Siciliano et al., <em>Robotics: Modelling, Planning and Control</em>. Springer, 2010.</li>
+            <li>D. E. Winter, <em>Biomechanics and Motor Control of Human Movement</em>, 4th ed. Wiley, 2009.</li>
+            <li>A. Maciejasz et al., "A survey on robotic devices for upper limb rehabilitation," <em>J. NeuroEngineering and Rehabilitation</em>, vol. 11, p. 3, 2014.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <Footer slot="footer" />
+</BaseLayout>
+
+<style>
+  .prose :where(h2):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+  .prose :where(h3):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  .prose :where(p):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-bottom: 1rem;
+    line-height: 1.75;
+  }
+  .prose :where(ul):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    list-style-type: disc;
+  }
+  .prose :where(ol):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    list-style-type: decimal;
+  }
+  .prose :where(li):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-bottom: 0.25rem;
+    line-height: 1.7;
+  }
+  .prose :where(figure):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+  .prose :where(figcaption):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+  }
+  .prose :where(strong):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    font-weight: 600;
+    color: hsl(var(--foreground));
+  }
+  .prose :where(em):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    font-style: italic;
+  }
+</style>
